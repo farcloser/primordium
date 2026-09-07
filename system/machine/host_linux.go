@@ -48,10 +48,10 @@ func Host() (Info, error) {
 	cpuModel := readCPUModel()
 	cores := runtime.NumCPU()
 
+	// Bsize is a filesystem block size, always positive.
+	// #nosec G115 -- see above
 	return Info{
-		//nolint:gosec // G115: Bsize is a filesystem block size, always positive.
-		DiskTotal: stat.Blocks * uint64(stat.Bsize),
-		//nolint:gosec // G115: Bsize is a filesystem block size, always positive.
+		DiskTotal:    stat.Blocks * uint64(stat.Bsize),
 		DiskFree:     stat.Bavail * uint64(stat.Bsize),
 		RAMTotal:     ramTotal,
 		RAMAvailable: ramAvail,

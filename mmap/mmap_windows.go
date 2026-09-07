@@ -44,7 +44,7 @@ func MapFile(file *os.File, size int) ([]byte, Mapping, error) {
 		nil,
 		syscall.PAGE_READWRITE,
 		uint32(uint64(size)>>32),
-		uint32(size), //nolint:gosec // size validated positive above
+		uint32(size), // #nosec G115 -- size validated positive above
 		nil,
 	)
 	if err != nil {
@@ -60,14 +60,14 @@ func MapFile(file *os.File, size int) ([]byte, Mapping, error) {
 	)
 	if err != nil {
 		//revive:disable-next-line:unhandled-error // best-effort cleanup on failure path
-		syscall.CloseHandle(handle) //nolint:gosec // G104
+		syscall.CloseHandle(handle) // #nosec G104 -- best-effort cleanup
 
 		return nil, Mapping{}, fmt.Errorf("%w: MapViewOfFile: %w", fault.ErrSystemFailure, err)
 	}
 
-	//nolint:gosec,govet // G103/unsafeptr: uintptr→Pointer from MapViewOfFile, pinned by OS mapping
-	data := unsafe.Slice(
-		(*byte)(unsafe.Pointer(addr)),
+	//nolint:govet // unsafeptr: uintptr→Pointer from MapViewOfFile, pinned by OS mapping
+	data := unsafe.Slice( // #nosec G103 -- uintptr to Pointer from MapViewOfFile, pinned by the OS mapping
+		(*byte)(unsafe.Pointer(addr)), // #nosec G103
 		size,
 	)
 
@@ -105,7 +105,7 @@ func SyncFile(data []byte, file *os.File) error {
 	}
 
 	if err := syscall.FlushViewOfFile(
-		uintptr(unsafe.Pointer(&data[0])), //nolint:gosec // G103: required for mmap syscall interop
+		uintptr(unsafe.Pointer(&data[0])), // #nosec G103 -- required for the mmap syscall interop
 		uintptr(len(data)),
 	); err != nil {
 		return fmt.Errorf("%w: FlushViewOfFile: %w", fault.ErrSystemFailure, err)

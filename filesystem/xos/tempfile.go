@@ -20,7 +20,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//nolint:wrapcheck,gosec,varnamelen
+//nolint:wrapcheck,varnamelen
 //revive:disable:add-constant,exported
 package xos
 
@@ -31,6 +31,9 @@ import (
 	"strconv"
 )
 
+// A temp-file name suffix, as in Go's os.CreateTemp: the truncation is the
+// point, and uniqueness comes from O_EXCL, not from secrecy.
+// #nosec G115 G404 -- see above
 func nextRandom() string {
 	return strconv.FormatUint(uint64(uint32(rand.Uint64())), 10)
 }

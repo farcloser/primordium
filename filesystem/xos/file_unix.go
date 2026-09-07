@@ -26,7 +26,7 @@ import "os"
 //
 //nolint:wrapcheck // Thin wrapper
 func Open(path string) (*os.File, error) {
-	return os.Open(path) //nolint:gosec // Caller controls path
+	return os.Open(path) // #nosec G304 -- Caller controls path
 }
 
 // OpenFile opens a file with the given flags and permissions. On Windows,
@@ -35,7 +35,7 @@ func Open(path string) (*os.File, error) {
 //
 //nolint:wrapcheck // Thin wrapper
 func OpenFile(path string, flag int, perm os.FileMode) (*os.File, error) {
-	return os.OpenFile(path, flag, perm) //nolint:gosec // Caller controls path
+	return os.OpenFile(path, flag, perm) // #nosec G304 -- Caller controls path
 }
 
 // Truncate changes the size of the named file.

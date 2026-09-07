@@ -29,14 +29,15 @@ func isProcessAlive(pid int) bool {
 	handle, err := syscall.OpenProcess(
 		processQueryLimitedInformation,
 		false,
-		uint32(pid), //nolint:gosec // G115: PIDs are non-negative
+		uint32(pid), // #nosec G115 -- PIDs are non-negative
 	)
 	if err != nil {
 		return false
 	}
 
 	//revive:disable-next-line:unhandled-error // best-effort close
-	syscall.CloseHandle(handle) //nolint:errcheck,gosec
+	// #nosec G104 -- best-effort cleanup
+	syscall.CloseHandle(handle) //nolint:errcheck
 
 	return true
 }

@@ -52,9 +52,12 @@ func Initialize(conf *Config) error {
 	}
 
 	err := sentry.Init(sentry.ClientOptions{
-		Dsn:              conf.DSN,
-		Debug:            conf.Debug,
-		SendDefaultPII:   conf.PII,
+		Dsn:   conf.DSN,
+		Debug: conf.Debug,
+		// SendDefaultPII maps conf.PII one-to-one. Its successor, DataCollection,
+		// is granular (user info, cookies, headers, bodies) — choosing what PII
+		// means for this reporter is a design decision, not a linter fix.
+		SendDefaultPII:   conf.PII, //nolint:staticcheck // SA1019: see above
 		AttachStacktrace: true,
 		EnableTracing:    true,
 		Environment:      conf.Environment,

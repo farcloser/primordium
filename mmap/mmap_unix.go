@@ -72,7 +72,7 @@ func SyncFile(data []byte, _ *os.File) error {
 		return nil
 	}
 
-	//nolint:gosec // unsafe.Pointer required by msync syscall interface; data is a live mmap'd slice
+	// #nosec G103 -- unsafe.Pointer required by msync syscall interface; data is a live mmap'd slice
 	_, _, errno := syscall.Syscall(
 		syscall.SYS_MSYNC,
 		uintptr(unsafe.Pointer(&data[0])),

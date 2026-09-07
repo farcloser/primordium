@@ -13,6 +13,11 @@ import 'lib.just'
 # --- Project tooling via aqua (see book/tooling.md). Each recipe takes the
 #     owner/repo exactly as it appears in aqua.yaml, e.g. golangci/golangci-lint. ---
 #
+# Not every tool is aqua's: the Go-source analyzers (deadcode, govulncheck,
+# go-licenses) are go.mod `tool` directives, built by the pinned go — add or
+# bump one with `go get -tool <pkg>@<version> && go mod tidy` (Renovate bumps
+# them too). See book/tooling.md, "Go-source analyzers are go.mod tools".
+#
 # The mutating recipes end with a FULL `aqua install`, never `--only-link`:
 # links verify nothing (lazy pulls are a CI economy — wrong at the moment a
 # pin changes), and for checksum-less package types (go_install) the
@@ -89,16 +94,23 @@ remove pkg: (_banner "tools" "remove")
     # it. A regex would make a dot in the name a wildcard (see `add`) and delete a
     # sibling — and escaping for awk is unportable (its -v processing eats the
     # backslashes), so we parse the slug out and compare literally instead. Drops
-    # the entry's line plus its indented continuation lines (registry:, etc.).
+    # the entry's line plus everything that belongs to it, and the entry's extent
+    # is decided by indentation, as YAML itself decides it: every non-blank line
+    # indented deeper than the entry's `- ` is part of it — `registry:`,
+    # `version:`, a nested list, an indented comment explaining the pin — while
+    # the first line at the entry's own indentation or shallower ends it. That
+    # last rule is what keeps a `# --- section ---` header at list-item depth
+    # intact when the entry above it goes: the header belongs to what follows.
+    # A blank line ends the entry too (aqua.yaml entries carry none).
     awk -v pkg="{{ pkg }}" '
-        function isCont(l) { return (l ~ /^[[:blank:]]+[^[:blank:]#-]/) }
+        function indent(l) { match(l, /^[[:blank:]]*/); return RLENGTH }
         {
-            if (skip) { if (isCont($0)) next; skip = 0 }
+            if (skip) { if ($0 !~ /^[[:blank:]]*$/ && indent($0) > depth) next; skip = 0 }
             if (match($0, /^[[:blank:]]*-[[:blank:]]*name:[[:blank:]]*/)) {
                 slug = substr($0, RLENGTH + 1)
                 sub(/[[:blank:]].*$/, "", slug)   # drop trailing spaces / comment
                 sub(/@.*$/, "", slug)             # drop @version
-                if (slug == pkg) { skip = 1; next }
+                if (slug == pkg) { skip = 1; depth = indent($0); next }
             }
             print
         }

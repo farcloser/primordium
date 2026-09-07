@@ -499,7 +499,7 @@ func (idx *Index) create(capacity uint64) error {
 	}
 	defer file.Close() // Data synced; close error is not actionable.
 
-	//nolint:gosec // capacity is bounded by available memory; overflow requires >3.6×10^17 buckets
+	// #nosec G115 -- capacity is bounded by available memory; overflow requires >3.6×10^17 buckets
 	size := int64(headerSize) + int64(capacity)*idx.recordSize()
 	if err := file.Truncate(size); err != nil {
 		return fmt.Errorf("%w: truncate: %w", fault.ErrWriteFailure, err)
@@ -509,7 +509,7 @@ func (idx *Index) create(capacity uint64) error {
 	marshalHeader(buf, header{
 		Magic:   magic,
 		Version: version,
-		//nolint:gosec // valSize is validated to be in [1, 65535] in New
+		// #nosec G115 -- valSize is validated to be in [1, 65535] in New
 		ValSize:  uint16(idx.valSize),
 		Capacity: capacity,
 	})
@@ -535,14 +535,14 @@ func writeJournal(path string, newCap uint64, valSize int, records []Record) err
 	buf := make([]byte, journalHeaderSize+len(records)*journalRecordSize)
 	binary.BigEndian.PutUint64(buf[0:8], newCap)
 	binary.BigEndian.PutUint64(buf[8:16], uint64(len(records)))
-	//nolint:gosec // valSize is validated to be in [1, 65535] in New
+	// #nosec G115 -- valSize is validated to be in [1, 65535] in New
 	binary.BigEndian.PutUint16(buf[16:18], uint16(valSize))
 
 	for i, rec := range records {
 		off := journalHeaderSize + i*journalRecordSize
 		binary.BigEndian.PutUint64(buf[off:off+keySize], rec.Key)
 		copy(buf[off+keySize:off+keySize+valSize], rec.Value)
-		//nolint:gosec // round-trip: int64→uint64 on write, uint64→int64 on read
+		// #nosec G115 -- round-trip: int64→uint64 on write, uint64→int64 on read
 		binary.BigEndian.PutUint64(buf[off+keySize+valSize:off+keySize+valSize+tsSize], uint64(rec.Timestamp))
 	}
 
@@ -588,7 +588,8 @@ func readJournal(path string) (journalData, error) {
 	valSz := int(binary.BigEndian.Uint16(data[16:18]))
 	journalRecordSize := keySize + valSz + tsSize
 
-	//nolint:gosec // count from untrusted journal; overflow produces wrong expected, caught by size mismatch check below
+	// #nosec G115 -- count from untrusted journal; overflow produces wrong expected, caught by size mismatch check
+	// below
 	expected := journalHeaderSize + int(count)*journalRecordSize
 	if len(data) != expected {
 		return journalData{}, fmt.Errorf("%w: journal size mismatch: have %d, want %d",
@@ -604,7 +605,7 @@ func readJournal(path string) (journalData, error) {
 		records[idx] = Record{
 			Key:   binary.BigEndian.Uint64(data[off : off+keySize]),
 			Value: val,
-			//nolint:gosec // round-trip: uint64→int64 on read, int64→uint64 on write
+			// #nosec G115 -- round-trip: uint64→int64 on read, int64→uint64 on write
 			Timestamp: int64(binary.BigEndian.Uint64(data[off+keySize+valSz : off+keySize+valSz+tsSize])),
 		}
 	}
@@ -648,14 +649,14 @@ func recoverFromJournal(dataPath, journalPath string, valSize int) error {
 	recSize := int64(1 + keySize + valSize + tsSize)
 
 	// Build the recovered data file in memory.
-	//nolint:gosec // same bound as create
+	// #nosec G115 -- same bound as create
 	fileSize := int64(headerSize) + int64(newCap)*recSize
 	buf := make([]byte, fileSize)
 
 	hdr := header{
 		Magic:   magic,
 		Version: version,
-		//nolint:gosec // valSize is validated to be in [1, 65535] in New
+		// #nosec G115 -- valSize is validated to be in [1, 65535] in New
 		ValSize:  uint16(valSize),
 		Capacity: newCap,
 	}
@@ -665,7 +666,7 @@ func recoverFromJournal(dataPath, journalPath string, valSize int) error {
 		start := rec.Key % newCap
 		for j := range newCap {
 			bucket := (start + j) % newCap
-			//nolint:gosec // bucket < newCap, bounded by file size
+			// #nosec G115 -- bucket < newCap, bounded by file size
 			off := int64(headerSize) + int64(bucket)*recSize
 			if buf[off] == statusEmpty {
 				marshalRecord(buf, off, rec.Key, rec.Value, valSize, rec.Timestamp)
@@ -723,7 +724,7 @@ func (idx *Index) mmapDataFile() error {
 }
 
 func (idx *Index) offset(bucket uint64) int64 {
-	//nolint:gosec // bucket < capacity, which is bounded by int64-sized file
+	// #nosec G115 -- bucket < capacity, which is bounded by int64-sized file
 	return int64(headerSize) + int64(bucket)*idx.recordSize()
 }
 
@@ -752,7 +753,7 @@ func marshalRecord(dst []byte, off int64, key uint64, value []byte, valSize int,
 	dst[off] = statusOccupied
 	binary.BigEndian.PutUint64(dst[off+1:off+1+keySize], key)
 	copy(dst[off+1+keySize:off+1+keySize+vsz], value)
-	//nolint:gosec // round-trip: int64→uint64 on write, uint64→int64 on read; bit pattern preserved
+	// #nosec G115 -- round-trip: int64→uint64 on write, uint64→int64 on read; bit pattern preserved
 	binary.BigEndian.PutUint64(dst[off+1+keySize+vsz:off+1+keySize+vsz+tsSize], uint64(timestamp))
 }
 
@@ -772,7 +773,7 @@ func (idx *Index) readRecord(off int64) Record {
 	return Record{
 		Key:   binary.BigEndian.Uint64(idx.data[off+1 : off+1+keySize]),
 		Value: val,
-		//nolint:gosec // round-trip: int64→uint64 on write, uint64→int64 on read; bit pattern preserved
+		// #nosec G115 -- round-trip: int64→uint64 on write, uint64→int64 on read; bit pattern preserved
 		Timestamp: int64(binary.BigEndian.Uint64(idx.data[off+1+keySize+valOff : off+1+keySize+valOff+tsSize])),
 	}
 }
@@ -842,7 +843,7 @@ func (idx *Index) growLocked() error {
 	// --- Begin in-place grow (crash-unsafe window, journal covers it) ---
 
 	// Resize the file. The old mapping remains valid for its original range.
-	//nolint:gosec // same bound as create; capacity is bounded by available memory
+	// #nosec G115 -- same bound as create; capacity is bounded by available memory
 	newSize := int64(headerSize) + int64(newCap)*idx.recordSize()
 	if err := idx.dataFile.Truncate(newSize); err != nil {
 		_ = os.Remove(idx.journalPath)
@@ -866,7 +867,7 @@ func (idx *Index) growLocked() error {
 	newHdr := header{
 		Magic:   magic,
 		Version: version,
-		//nolint:gosec // valSize is validated to be in [1, 65535] in New
+		// #nosec G115 -- valSize is validated to be in [1, 65535] in New
 		ValSize:  uint16(idx.valSize),
 		Capacity: newCap,
 	}
@@ -879,7 +880,7 @@ func (idx *Index) growLocked() error {
 		start := rec.Key % newCap
 		for j := range newCap {
 			bucket := (start + j) % newCap
-			//nolint:gosec // bucket < newCap, bounded by file size
+			// #nosec G115 -- bucket < newCap, bounded by file size
 			off := int64(headerSize) + int64(bucket)*recSize
 			if newData[off] == statusEmpty {
 				marshalRecord(newData, off, rec.Key, rec.Value, idx.valSize, rec.Timestamp)
@@ -900,7 +901,7 @@ func (idx *Index) growLocked() error {
 	idx.cap = newCap
 
 	// Restore the write lock word in the new mapping.
-	//nolint:gosec // PIDs are always positive; 31-bit PID field cannot overflow
+	// #nosec G115 -- PIDs are always positive; 31-bit PID field cannot overflow
 	atomic.StoreUint64(idx.lockWordPtr(), lockWriteFlag|(uint64(os.Getpid())<<lockPIDShift))
 
 	// Unmap old — best-effort; leaked mappings are reclaimed on process exit.
@@ -950,8 +951,8 @@ func (idx *Index) reopenLocked() error {
 	}
 
 	// Restore write lock in the new mapping before swap.
-	//nolint:gosec // PIDs are always positive; 31-bit PID field cannot overflow
-	//nolint:gosec // required for cross-process atomics on mmap'd region; offset 40 is 8-byte aligned
+	// #nosec G103 G115 -- PIDs are always positive; 31-bit PID field cannot overflow
+	// #nosec G103 -- required for cross-process atomics on mmap'd region; offset 40 is 8-byte aligned
 	atomic.StoreUint64((*uint64)(unsafe.Pointer(&newData[lockOffset])),
 		lockWriteFlag|(uint64(os.Getpid())<<lockPIDShift))
 
@@ -1033,21 +1034,21 @@ func (idx *Index) wlockFresh() error {
 // atomic lock word in mmap'd header for cross-process safety.
 
 func (idx *Index) lockWordPtr() *uint64 {
-	//nolint:gosec // required for cross-process atomics on mmap'd region; offset 40 is 8-byte aligned
+	// #nosec G103 -- required for cross-process atomics on mmap'd region; offset 40 is 8-byte aligned
 	return (*uint64)(unsafe.Pointer(&idx.data[lockOffset]))
 }
 
 // readerSlotPtr returns a pointer to the PID slot at the given index in the
 // mmap'd lock file. Each slot is a uint32.
 func (idx *Index) readerSlotPtr(slot int) *uint32 {
-	//nolint:gosec // required for cross-process atomics on mmap'd lock file; slots are 4-byte aligned
+	// #nosec G103 -- required for cross-process atomics on mmap'd lock file; slots are 4-byte aligned
 	return (*uint32)(unsafe.Pointer(&idx.lockData[slot*4]))
 }
 
 // claimReaderSlot CAS-claims an empty PID slot in the lock file for this
 // process. Called on the per-process 0→1 reader transition.
 func (idx *Index) claimReaderSlot() {
-	//nolint:gosec // PIDs are always positive and fit in uint32
+	// #nosec G115 -- PIDs are always positive and fit in uint32
 	ourPID := uint32(os.Getpid())
 
 	for slot := range maxReaderSlots {
@@ -1145,7 +1146,7 @@ func (idx *Index) wlock() {
 	idx.mu.Lock()
 
 	ptr := idx.lockWordPtr()
-	target := lockWriteFlag | (uint64(os.Getpid()) << lockPIDShift) //nolint:gosec // PIDs are always positive; 31-bit PID field cannot overflow
+	target := lockWriteFlag | (uint64(os.Getpid()) << lockPIDShift) // #nosec G115 -- PIDs are always positive; 31-bit PID field cannot overflow
 
 	for spin := 0; ; spin++ {
 		old := atomic.LoadUint64(ptr)

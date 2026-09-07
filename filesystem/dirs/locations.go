@@ -68,7 +68,7 @@ func RuntimeDir() (string, error) {
 		baseDir = filepath.Join(os.TempDir(), name)
 	}
 
-	//nolint:gosec // G703: baseDir from TempDir+hardcoded name
+	// #nosec G703 -- baseDir from TempDir+hardcoded name
 	if err := os.MkdirAll(baseDir, dirPermissions); err != nil {
 		return "", fmt.Errorf("%w: %w", fault.ErrFilesystemFailure, err)
 	}
