@@ -285,7 +285,7 @@ func (t *retryTransport) backoffDuration(attempt int) time.Duration {
 		}
 	}
 
-	jitter := jitterMin + rand.Float64()*jitterRange //nolint:gosec // Jitter, not crypto.
+	jitter := jitterMin + rand.Float64()*jitterRange // #nosec G404 -- Jitter, not crypto.
 
 	return time.Duration(float64(backoff) * jitter)
 }

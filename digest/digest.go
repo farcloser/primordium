@@ -18,8 +18,8 @@ package digest
 
 import (
 	"crypto"
-	_ "crypto/md5"  //nolint:gosec // MD5 needed for external digest verification
-	_ "crypto/sha1" //nolint:gosec // SHA1 needed for legacy git compatibility
+	_ "crypto/md5"  // #nosec G501 -- MD5 needed for external digest verification
+	_ "crypto/sha1" // #nosec G505 -- SHA1 needed for legacy git compatibility
 	_ "crypto/sha256"
 	_ "crypto/sha512"
 	"encoding/hex"

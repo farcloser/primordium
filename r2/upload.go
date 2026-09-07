@@ -95,7 +95,7 @@ func (cli *Client) Upload(
 		return fmt.Errorf("%w: %d (max %d)", fault.ErrInvalidArgument, numParts64, maxParts)
 	}
 
-	numParts := int32(numParts64) //nolint:gosec // bounds-checked above
+	numParts := int32(numParts64) // #nosec G115 -- bounds-checked above
 	statePath := stateFilePath(opts.StateDir, cli.bucket, objectKey)
 
 	state, err := cli.loadOrCreateUpload(ctx, objectKey, totalSize, opts, statePath)

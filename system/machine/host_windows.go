@@ -83,11 +83,10 @@ func diskSpace(path string) (total, free uint64, err error) {
 		return 0, 0, fmt.Errorf("%w: utf16 path: %w", fault.ErrSystemFailure, err)
 	}
 
-	//nolint:gosec // G103: required for Win32 syscall interop
 	ret, _, callErr := procGetDiskFreeSpaceEx.Call(
-		uintptr(unsafe.Pointer(pathPtr)),
-		uintptr(unsafe.Pointer(&free)),
-		uintptr(unsafe.Pointer(&total)),
+		uintptr(unsafe.Pointer(pathPtr)), // #nosec G103 -- required for Win32 syscall interop
+		uintptr(unsafe.Pointer(&free)),   // #nosec G103
+		uintptr(unsafe.Pointer(&total)),  // #nosec G103
 		0,
 	)
 	if ret == 0 {
@@ -103,8 +102,9 @@ func physicalMemory() (total, available uint64, err error) {
 
 	mem.length = uint32(unsafe.Sizeof(mem))
 
-	//nolint:gosec // G103: required for Win32 syscall interop
-	ret, _, callErr := procGlobalMemoryStatusEx.Call(uintptr(unsafe.Pointer(&mem)))
+	ret, _, callErr := procGlobalMemoryStatusEx.Call(
+		uintptr(unsafe.Pointer(&mem)),
+	) // #nosec G103 -- required for Win32 syscall interop
 	if ret == 0 {
 		return 0, 0, fmt.Errorf("%w: GlobalMemoryStatusEx: %w", fault.ErrSystemFailure, callErr)
 	}
@@ -152,8 +152,13 @@ func readCPUModel() string {
 	// Read the value.
 	buf := make([]uint16, dataSize/2) //nolint:mnd // bytes to uint16 elements
 
-	if err := syscall.RegQueryValueEx( //nolint:gosec // G103: required for registry syscall interop
-		hKey, valueName, nil, &dataType, (*byte)(unsafe.Pointer(&buf[0])), &dataSize,
+	if err := syscall.RegQueryValueEx(
+		hKey,
+		valueName,
+		nil,
+		&dataType,
+		(*byte)(unsafe.Pointer(&buf[0])), // #nosec G103
+		&dataSize,                        // #nosec G103 -- required for the registry syscall interop
 	); err != nil {
 		return ""
 	}

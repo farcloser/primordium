@@ -115,7 +115,8 @@ func OpenFile(path string, flag int, perm os.FileMode) (*os.File, error) {
 			}
 
 			if truncErr != nil {
-				windows.CloseHandle(handle) //nolint:errcheck,gosec // Best-effort cleanup.
+				// #nosec G104 -- best-effort cleanup
+				windows.CloseHandle(handle) //nolint:errcheck // Best-effort cleanup.
 
 				return nil, &os.PathError{Op: opOpen, Path: path, Err: truncErr}
 			}
@@ -155,7 +156,7 @@ func createFileShareDelete(
 ) (handle windows.Handle, alreadyExists bool, err error) {
 	rawHandle, _, lastErr := syscall.SyscallN(
 		procCreateFileW.Addr(),
-		uintptr(unsafe.Pointer(name)), //nolint:gosec // G103: required for CreateFileW syscall
+		uintptr(unsafe.Pointer(name)), // #nosec G103 -- required for the CreateFileW syscall
 		uintptr(access),
 		uintptr(shareMode),
 		0, // security attributes (nil = non-inheritable, matching Go's O_CLOEXEC default)
