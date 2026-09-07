@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.19.36
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.107.2
 	github.com/aws/smithy-go v1.27.8
-	github.com/forkcloser/blake3 v0.0.0-20260816062159-f9c9b3aa9f77
+	github.com/forkcloser/blake3 v0.0.0-20260906214008-90f79994b64e
 	github.com/forkcloser/xz v0.0.0-20260816062216-a6404f43fdba
 	github.com/getsentry/sentry-go v0.48.0
 	github.com/johannesboyne/gofakes3 v1.2.0

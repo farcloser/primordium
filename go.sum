@@ -42,8 +42,8 @@ github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymF
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
-github.com/forkcloser/blake3 v0.0.0-20260816062159-f9c9b3aa9f77 h1:/jpS359cQHiVHvbhF8GNPoA0oWWdVEMkK3pbh58DuVI=
-github.com/forkcloser/blake3 v0.0.0-20260816062159-f9c9b3aa9f77/go.mod h1:MaKWUnQyAEzn6AhE89XHsuOpJ5tA3pjR4qjLc0P6F3k=
+github.com/forkcloser/blake3 v0.0.0-20260906214008-90f79994b64e h1:GDD8i/7ZLerJnNOoZsqQeZlX8yBsXIGVaVqpmhaDyIE=
+github.com/forkcloser/blake3 v0.0.0-20260906214008-90f79994b64e/go.mod h1:MaKWUnQyAEzn6AhE89XHsuOpJ5tA3pjR4qjLc0P6F3k=
 github.com/forkcloser/xz v0.0.0-20260816062216-a6404f43fdba h1:/1+KkI7ZiSBEmZE4gP49Y/uHa5aoJdqZWrfLemtOCo4=
 github.com/forkcloser/xz v0.0.0-20260816062216-a6404f43fdba/go.mod h1:Ws8OoTcb2fS7yoqqv49m066Pb7aDk5v3nd1wiDho2nY=
 github.com/getsentry/sentry-go v0.48.0 h1:FRZNr7Uk1C86ev1bSJmYlUkL9oyivQA6YOcdYfaaMmY=
