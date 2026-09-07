@@ -46,53 +46,53 @@
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/farcloser/limen/v0.0.16/limen_0.0.16_darwin_arm64.tar.gz",
-      "checksum": "529FB618F0E880DF5EFC4C208180EFBA7C9421460829193D7A6FA7DC78AAE70E",
+      "id": "github_release/github.com/farcloser/limen/v0.1.0/limen_0.1.0_darwin_arm64.tar.gz",
+      "checksum": "F08C845099CBB49AFB5E0E6E4FF0B2D9BD7EE3DA371358EB0DA68DC330521820",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/farcloser/limen/v0.0.16/limen_0.0.16_linux_amd64.tar.gz",
-      "checksum": "9A2F747BF0EB89BAF1FDB578F2420BD3F18F92EDAD6BC1CE218EF4B45D255040",
+      "id": "github_release/github.com/farcloser/limen/v0.1.0/limen_0.1.0_linux_amd64.tar.gz",
+      "checksum": "EE88DC7AC3D004B99E1D38CF2E90E715AF29EF2B11FAC6A5ACEA53C55E655FB8",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/farcloser/limen/v0.0.16/limen_0.0.16_linux_arm64.tar.gz",
-      "checksum": "09FA9D982731750B7C64B4024B28998007C90A72527880C16A0FFDFD53815570",
+      "id": "github_release/github.com/farcloser/limen/v0.1.0/limen_0.1.0_linux_arm64.tar.gz",
+      "checksum": "F98A621D3613F42336EA1DC3B141E22C28AFDB071F370BEBA27DEC4EB06EEFDA",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/farcloser/limen/v0.0.16/limen_0.0.16_windows_amd64.tar.gz",
-      "checksum": "BB54B101F957872AE24E5D99EB0C8F8117C09604669056F2F2C4A9A9AFC288E9",
+      "id": "github_release/github.com/farcloser/limen/v0.1.0/limen_0.1.0_windows_amd64.tar.gz",
+      "checksum": "6919D7817CDFAE82AAE2096F4E9F3B8B2F52CEF90DB50A9B67A17E93CB1C25F8",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/farcloser/limen/v0.0.16/limen_0.0.16_windows_arm64.tar.gz",
-      "checksum": "B6047BBE537D439C75CDC2356F8A7CF4DFFDFF0BFB6CF019FBF0D1AC46E9B293",
+      "id": "github_release/github.com/farcloser/limen/v0.1.0/limen_0.1.0_windows_arm64.tar.gz",
+      "checksum": "AD2239813F31E27ED1E0EEC411B553F37CD828DEB2FB55865C6F6F8F5F694085",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/golangci/golangci-lint/v2.12.2/golangci-lint-2.12.2-darwin-arm64.tar.gz",
-      "checksum": "A9C54498731B3128F79E090BE6110F3E5FFFCCC617B08142ED244D4126C73F29",
+      "id": "github_release/github.com/golangci/golangci-lint/v2.13.2/golangci-lint-2.13.2-darwin-arm64.tar.gz",
+      "checksum": "F4BF83F0B64F055C42B28FC9A38861839F69C096E61C788E72DFAAE412011789",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/golangci/golangci-lint/v2.12.2/golangci-lint-2.12.2-linux-amd64.tar.gz",
-      "checksum": "8DF580D2670FED8FA984AAC0507099AF8DF275E665215F5C7A2AE3943893A553",
+      "id": "github_release/github.com/golangci/golangci-lint/v2.13.2/golangci-lint-2.13.2-linux-amd64.tar.gz",
+      "checksum": "2277D43B98EC0054280F2AC26B53268BAE97682444678A59A657DD565DA021D6",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/golangci/golangci-lint/v2.12.2/golangci-lint-2.12.2-linux-arm64.tar.gz",
-      "checksum": "44CD40A8C76C86755375ADFEEA52CFD3533CB43D7BD647771E0AE065E166DF3A",
+      "id": "github_release/github.com/golangci/golangci-lint/v2.13.2/golangci-lint-2.13.2-linux-arm64.tar.gz",
+      "checksum": "A2A4E0065AA41BE71F7C5AC90F271B61751331E5D04314E62AFE4027855F0893",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/golangci/golangci-lint/v2.12.2/golangci-lint-2.12.2-windows-amd64.zip",
-      "checksum": "BD42E3EBC8CB4ECECB86941983BAAF1DC221BBB04D838E94CE63B49CC91E02BB",
+      "id": "github_release/github.com/golangci/golangci-lint/v2.13.2/golangci-lint-2.13.2-windows-amd64.zip",
+      "checksum": "4735FDC8E84A0CFB7A15A1C364A650942F88215E0D36C674EBC4024F7B554524",
       "algorithm": "sha256"
     },
     {
-      "id": "github_release/github.com/golangci/golangci-lint/v2.12.2/golangci-lint-2.12.2-windows-arm64.zip",
-      "checksum": "947B9A5BF762D465710B376C156F0184ABB2168378B0826AF1899E0EE7183742",
+      "id": "github_release/github.com/golangci/golangci-lint/v2.13.2/golangci-lint-2.13.2-windows-arm64.zip",
+      "checksum": "2DBFFBD1225D41AC5740F0B478A43B6517F3E3F702FE0AB3AEC470BD6EC8E263",
       "algorithm": "sha256"
     },
     {
@@ -251,28 +251,28 @@
       "algorithm": "sha256"
     },
     {
-      "id": "http/golang.org/dl/go1.26.5.darwin-arm64.tar.gz",
-      "checksum": "EFB87FF28AF9A188D0536EF5D42E63DD52BA8263CD7344A993CC48DD11DEDB6A",
+      "id": "http/golang.org/dl/go1.27.1.darwin-arm64.tar.gz",
+      "checksum": "EE215D57E0EC269C60CC9CECA68E6BDA321BA9EE5AFE24F4B0988703C2D87D12",
       "algorithm": "sha256"
     },
     {
-      "id": "http/golang.org/dl/go1.26.5.linux-amd64.tar.gz",
-      "checksum": "5C2C3B16CAEFA1D968A94C1DACA04A7CA301A496D9B086E17AD77BB81393F053",
+      "id": "http/golang.org/dl/go1.27.1.linux-amd64.tar.gz",
+      "checksum": "63D339F0DA5AB53635A56F2490A7984DFE12DFCFF22AD749F63EDAF590168445",
       "algorithm": "sha256"
     },
     {
-      "id": "http/golang.org/dl/go1.26.5.linux-arm64.tar.gz",
-      "checksum": "FE4789E92B1F33358680864BBE8704289E7BB5FC207D80623C308935BD696D49",
+      "id": "http/golang.org/dl/go1.27.1.linux-arm64.tar.gz",
+      "checksum": "3450B45A3F9EE8568792736A5C5E70A1F2E9B36C35A8F74958C03E51D7D92BEC",
       "algorithm": "sha256"
     },
     {
-      "id": "http/golang.org/dl/go1.26.5.windows-amd64.zip",
-      "checksum": "97E6B2A833B6D89F9FF17D25419AC0A7E3B482A044E9AB18CDEF834BD834FD38",
+      "id": "http/golang.org/dl/go1.27.1.windows-amd64.zip",
+      "checksum": "A3911B5E0E1B1053F25ED0675F4C1C6AAD1E2BFCF253DF2B9BE4CAABD2EDD95D",
       "algorithm": "sha256"
     },
     {
-      "id": "http/golang.org/dl/go1.26.5.windows-arm64.zip",
-      "checksum": "F96EE46396D69F1E231C8D981EC6A70216238A646A1F2CD74AEA0D0016BBC017",
+      "id": "http/golang.org/dl/go1.27.1.windows-arm64.zip",
+      "checksum": "13B69B87BB0E83F96BC68560A8CACE7F0343B1E03469F1110EA18D17E3234069",
       "algorithm": "sha256"
     },
     {
